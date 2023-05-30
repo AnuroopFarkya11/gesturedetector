@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gesturedetector/AppBars/appBar.dart';
 import 'package:gesturedetector/MyBottomSheet.dart';
 import 'package:gesturedetector/MyChangeNotifiers.dart';
 import 'package:gesturedetector/MyFutureBuilder.dart';
 import 'package:gesturedetector/MyLayoutBuilder.dart';
 import 'package:gesturedetector/MySharedPref.dart';
 import 'package:gesturedetector/MyShimmerEffect.dart';
+import 'package:gesturedetector/MySnackBar.dart';
 import 'package:gesturedetector/MySocialMediaButton.dart';
 import 'package:gesturedetector/MySplashScreen.dart';
 import 'package:gesturedetector/MyTextfield.dart';
@@ -14,6 +16,7 @@ import 'package:gesturedetector/Navigators/MyPassingData1.dart';
 import 'package:gesturedetector/Navigators/Mynavigator2.dart';
 import 'package:gesturedetector/Navigators/MyNavigatorPushNamed.dart';
 import 'package:gesturedetector/ReadingJsonFIle.dart';
+import 'package:gesturedetector/TodoApp.dart';
 
 import 'package:gesturedetector/mainscreen.dart';
 
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
 
 
-        body:MyLayoutBuilder(),
+        body:MyAppBars(),
       ),
       routes: {'/route2':(context)=>MyNavigatorPushedNamed2(),
       '/socialButton':(context)=>MySocialMediaButton()},
