@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gesturedetector/Advance%20StepIndicator.dart';
+import 'package:gesturedetector/AppBars/CurvedButtomAppBar.dart';
 import 'package:gesturedetector/AppBars/appBar.dart';
+import 'package:gesturedetector/AppBars/kuappbar/signin.dart';
 import 'package:gesturedetector/MyBottomSheet.dart';
 import 'package:gesturedetector/MyChangeNotifiers.dart';
 import 'package:gesturedetector/MyFutureBuilder.dart';
@@ -17,10 +20,15 @@ import 'package:gesturedetector/Navigators/Mynavigator2.dart';
 import 'package:gesturedetector/Navigators/MyNavigatorPushNamed.dart';
 import 'package:gesturedetector/ReadingJsonFIle.dart';
 import 'package:gesturedetector/TodoApp.dart';
+import 'package:gesturedetector/dynamicKeyboard.dart';
+import 'package:gesturedetector/insta/signin.dart';
 
 import 'package:gesturedetector/mainscreen.dart';
 
+import 'AppBars/animatebars.dart';
+import 'AppBars/annimatedappbar.dart';
 import 'MyTextFormField.dart';
+import 'insta/try.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +49,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
 
 
-        body:MyAppBars(),
+        body:CurvedBottomAppBar(),
       ),
       routes: {'/route2':(context)=>MyNavigatorPushedNamed2(),
       '/socialButton':(context)=>MySocialMediaButton()},
