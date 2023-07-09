@@ -3,6 +3,7 @@ import 'package:gesturedetector/Advance%20StepIndicator.dart';
 import 'package:gesturedetector/AppBars/CurvedButtomAppBar.dart';
 import 'package:gesturedetector/AppBars/appBar.dart';
 import 'package:gesturedetector/AppBars/kuappbar/signin.dart';
+import 'package:gesturedetector/CheckInternet/splash_screen.dart';
 import 'package:gesturedetector/MyBottomSheet.dart';
 import 'package:gesturedetector/MyChangeNotifiers.dart';
 import 'package:gesturedetector/MyFutureBuilder.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
 
 
-        body:CurvedBottomAppBar(),
+        body:NetCheckSplashScreen(),
       ),
       routes: {'/route2':(context)=>MyNavigatorPushedNamed2(),
       '/socialButton':(context)=>MySocialMediaButton()},
