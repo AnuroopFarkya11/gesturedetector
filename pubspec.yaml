@@ -43,6 +43,14 @@ dependencies:
   step_progress_indicator: ^1.0.2
   internet_connection_checker: ^1.0.0+1
   connectivity_plus: ^4.0.1
+  firebase_auth: ^4.6.3
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
+  firebase_messaging: ^14.6.4
+  http: ^0.13.6
+  flutter_notification_channel: ^2.0.0
+  flutter_screenutil: ^5.7.0
+
 
 dev_dependencies:
   flutter_test:

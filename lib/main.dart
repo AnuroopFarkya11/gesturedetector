@@ -1,4 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_notification_channel/flutter_notification_channel.dart';
+import 'package:flutter_notification_channel/notification_importance.dart';
+import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:gesturedetector/Advance%20StepIndicator.dart';
 import 'package:gesturedetector/AppBars/CurvedButtomAppBar.dart';
 import 'package:gesturedetector/AppBars/appBar.dart';
@@ -19,7 +23,9 @@ import 'package:gesturedetector/Navigators/MyNavigatorPushNamed2.dart';
 import 'package:gesturedetector/Navigators/MyPassingData1.dart';
 import 'package:gesturedetector/Navigators/Mynavigator2.dart';
 import 'package:gesturedetector/Navigators/MyNavigatorPushNamed.dart';
+import 'package:gesturedetector/NotificationApp/app_main.dart';
 import 'package:gesturedetector/ReadingJsonFIle.dart';
+import 'package:gesturedetector/ScreenUtil/main.dart';
 import 'package:gesturedetector/TodoApp.dart';
 import 'package:gesturedetector/dynamicKeyboard.dart';
 import 'package:gesturedetector/insta/signin.dart';
@@ -31,8 +37,26 @@ import 'AppBars/annimatedappbar.dart';
 import 'MyTextFormField.dart';
 import 'insta/try.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await initializeNotificationChannel();
+  runApp(const ScreenUtilApp());
+}
+
+initializeNotificationChannel()async{
+  var result = await FlutterNotificationChannel.registerNotificationChannel(
+    description: 'For message notification',
+    id: 'Chats',
+    importance: NotificationImportance.IMPORTANCE_HIGH,
+    name: 'Chat Notification',
+    visibility: NotificationVisibility.VISIBILITY_PUBLIC,
+    allowBubbles: true,
+    enableVibration: true,
+    enableSound: true,
+    showBadge: true,
+  );
+  print(result);
 }
 
 class MyApp extends StatelessWidget {
@@ -42,6 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -50,7 +75,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
 
 
-        body:NetCheckSplashScreen(),
+        body:ShimmerEffect(),
       ),
       routes: {'/route2':(context)=>MyNavigatorPushedNamed2(),
       '/socialButton':(context)=>MySocialMediaButton()},
