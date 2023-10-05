@@ -24,6 +24,8 @@ import 'package:gesturedetector/Navigators/MyPassingData1.dart';
 import 'package:gesturedetector/Navigators/Mynavigator2.dart';
 import 'package:gesturedetector/Navigators/MyNavigatorPushNamed.dart';
 import 'package:gesturedetector/NotificationApp/app_main.dart';
+import 'package:gesturedetector/PDF_GENERATOR_APP/main.dart';
+import 'package:gesturedetector/QRapp/main.dart';
 import 'package:gesturedetector/ReadingJsonFIle.dart';
 import 'package:gesturedetector/ScreenUtil/main.dart';
 import 'package:gesturedetector/TodoApp.dart';
@@ -41,7 +43,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await initializeNotificationChannel();
-  runApp(const ScreenUtilApp());
+  runApp(const PdfGenerator());
 }
 
 initializeNotificationChannel()async{
