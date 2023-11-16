@@ -1,0 +1,293 @@
+import 'dart:io';import 'package:flutter/services.dart';
+import 'package:gesturedetector/PDF_GENERATOR_APP/pdf_class.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart';
+import 'package:printing/printing.dart';
+
+class WhizzReport {
+  final double pageHeight = PdfPageFormat.a4.height;
+  final double pageWidth = PdfPageFormat.a4.width;
+  late String headerBackground;
+  late String whizzIcon;
+  late String bullet;
+  late Font defaultFonts;
+  late Font defaultBoldFonts;
+  late Font defaultItalicFonts;
+  late Font defaultBoldItalicFonts;
+
+  String diseaseDescription =
+      "Arthritis is the swelling and tenderness of one or more of your joints. The main symptoms of arthritis are joint pain and stiffness, which typically worsen with age. The most common types of arthritis are osteoarthritis and rheumatoid arthritis";
+  List<String> symptoms = ['muscle_weakness', 'stiff_neck', 'swelling_joints'];
+
+  List<String> precautions=['Avoid fatty spicy food ','Avoid fatty spicy food ','Avoid fatty spicy food '];
+
+  Future<File> generate() async {
+    /// Loading background from assets
+    headerBackground = await rootBundle.loadString("assets/pdf_bg.svg");
+
+    /// Loading Whizz icon
+    whizzIcon = await rootBundle.loadString("assets/appIcon.svg");
+
+    bullet = await rootBundle.loadString("assets/bullet.svg");
+
+    /// Loading fonts online , todo Load form asset
+    defaultFonts = await PdfGoogleFonts.robotoRegular();
+    defaultBoldFonts = await PdfGoogleFonts.robotoBold();
+    defaultItalicFonts = await PdfGoogleFonts.robotoItalic();
+    defaultBoldItalicFonts = await PdfGoogleFonts.robotoBoldItalic();
+
+    Document pdf = Document();
+    pdf.addPage(MultiPage(
+        theme: ThemeData(
+            textAlign: TextAlign.left,
+            softWrap: true,
+            defaultTextStyle: TextStyle(
+                color: PdfColors.black,
+                font: defaultFonts,
+                fontBold: defaultBoldFonts,
+                fontItalic: defaultItalicFonts,
+                fontBoldItalic: defaultBoldItalicFonts)),
+        pageFormat: PdfPageFormat.a4,
+        margin: const EdgeInsets.symmetric(
+            vertical: 3 * PdfPageFormat.mm, horizontal: 3 * PdfPageFormat.mm),
+        build: (context) => [
+              reportHeader(),
+              SizedBox(height: pageHeight / 30),
+              reportContent(),
+            ],
+      footer:(context)=>reportFooter(context)
+    ),
+    );
+    return PdfApi.saveDocument(name: "HealthReport.pdf", pdf: pdf);
+  }
+
+  reportHeader() => Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0.5 * PdfPageFormat.cm),
+      height: PdfPageFormat.a4.availableHeight / 5.5,
+      decoration: BoxDecoration(
+        image: DecorationSvgImage(svg: headerBackground),
+      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text("Medical Report",
+            style:
+                TextStyle(fontSize: pageHeight / 25, color: PdfColors.white)),
+        SvgImage(
+          svg: whizzIcon,
+        )
+      ]));
+
+  reportContent() => Container(
+      margin: const EdgeInsets.symmetric(horizontal: 0.5 * PdfPageFormat.cm),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        reportPatientDetails(),
+        SizedBox(height: pageHeight / 30),
+        reportDiseaseDescription(),
+        SizedBox(height: pageHeight / 30),
+        reportSymptoms(),
+        SizedBox(height: pageHeight / 30),
+        reportPrecautions()
+      ]));
+
+  ///    PATIENT DETAILS
+  reportPatientDetails() =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          'Patient Demographics',
+          style: TextStyle(
+            fontSize: pageHeight / 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        SizedBox(height: pageHeight / 50),
+
+        /// NAME , GENDER AND LOCATION
+        Row(children: [
+          ///        NAME
+          tableHeaderCell("Name"),
+          tableValueCell(text: "Ram"),
+
+          ///        GENDER
+          tableHeaderCell("Gender"),
+          tableValueCell(text: "Male"),
+
+          ///        LOCATION
+          tableHeaderCell("Location"),
+          tableValueCell(text: "Ayodhya"),
+        ]),
+
+        ///  BLOOD GROUP , DOB AND NATIONALITY
+        Row(children: [
+          ///        BLOOD GROUP
+          tableHeaderCell("Blood Group"),
+          tableValueCell(text: "A+"),
+
+          ///        DATE OF BIRTH
+          tableHeaderCell("Date of birth"),
+          tableValueCell(text: "10/01/5551  "),
+
+          ///        NATIONALITY
+          tableHeaderCell("Nationality"),
+          tableValueCell(text: "Indian"),
+        ]),
+
+        /// CHECK-UP DATE, AGE AND ID NO.
+        Row(children: [
+          ///        DATE
+          tableHeaderCell("DATE"),
+          tableValueCell(text: "10/10/2023"),
+
+          ///        AGE
+          tableHeaderCell("AGE"),
+          tableValueCell(text: "100"),
+
+          ///        ID NO.
+          tableHeaderCell("ID NO."),
+          tableValueCell(text: "1234567"),
+        ]),
+      ]);
+
+  ///    DISEASE DESCRIPTION
+  reportDiseaseDescription() =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          'Disease Description',
+          style: TextStyle(
+            fontSize: pageHeight / 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: pageHeight / 35),
+
+        ///   DISEASE TABLE
+        Row(children: [
+          ///    NAME
+          tableHeaderCell("Name"),
+          tableValueCell(text: "Arthritis", width: true),
+
+          ///    SEVERITY
+          tableHeaderCell("Severity"),
+          tableValueCell(text: "3", width: true, color: PdfColors.amber)
+        ]),
+
+        SizedBox(height: pageHeight / 35),
+
+        ///  DESCRIPTION
+        Text(diseaseDescription,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic))
+      ]);
+
+  ///    SYMPTOMS
+  reportSymptoms() =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          'SYMPTOMS',
+          style: TextStyle(
+            fontSize: pageHeight / 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Wrap(
+            direction: Axis.horizontal,
+            spacing: 50,
+            runAlignment: WrapAlignment.center,
+            children: List.generate(
+                symptoms.length,
+                (index) => bullets(symptoms[index])))
+      ]);
+
+  reportPrecautions()=>Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        'Precautions',
+        style: TextStyle(
+          fontSize: pageHeight / 40,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+
+      Wrap(
+        direction: Axis.horizontal,
+          spacing: 100,
+          runAlignment: WrapAlignment.center,
+          children: List.generate(
+              symptoms.length,
+                  (index) => bullets(precautions[index])))
+
+
+
+    ]
+
+
+
+
+  );
+
+
+
+
+
+
+
+
+
+  /// REPORT BULLETS
+  bullets(String text)=>Container(
+    margin: EdgeInsets.symmetric(vertical: 3*PdfPageFormat.mm),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        SvgImage(
+          svg: bullet,
+        ),
+        SizedBox(width: 2),
+        Text(text,style: const TextStyle(fontSize: 14))
+      ]));
+
+  /// TABLE CELLS
+  tableHeaderCell(String text) {
+    return Container(
+        height: pageHeight / 20,
+        width: pageWidth / 6.5,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+            color: PdfColor.fromHex("DCE6FC"),
+            border: Border.all(color: PdfColor.fromHex("D1D1D6"), width: 2)),
+        child: Text(text,
+            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)));
+  }
+
+  tableValueCell({
+    required String text,
+    bool width = false,
+    PdfColor color = PdfColors.white,
+  }) {
+    return Container(
+        height: pageHeight / 20,
+        width: width ? pageWidth / 3.25 : pageWidth / 6.5,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+            color: color,
+            border: Border.all(color: PdfColor.fromHex("D1D1D6"), width: 2)),
+        child: Text(text, style: const TextStyle(fontSize: 10)));
+  }
+
+
+
+  ///      FOOTER
+  reportFooter(context)=>Column(
+      children: [
+        Divider(color: PdfColors.grey,borderStyle: BorderStyle.dashed,height: 10),
+        Align(
+            alignment: Alignment.centerRight,
+            child: Text("Page of ${context.pageNumber} of ${context.pagesCount}")
+        )
+
+      ]
+  );
+}

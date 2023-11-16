@@ -4,10 +4,12 @@ import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:gesturedetector/Advance%20StepIndicator.dart';
+import 'package:gesturedetector/Animations/main.dart';
 import 'package:gesturedetector/AppBars/CurvedButtomAppBar.dart';
 import 'package:gesturedetector/AppBars/appBar.dart';
 import 'package:gesturedetector/AppBars/kuappbar/signin.dart';
 import 'package:gesturedetector/CheckInternet/splash_screen.dart';
+import 'package:gesturedetector/HiveApp/main.dart';
 import 'package:gesturedetector/MyBottomSheet.dart';
 import 'package:gesturedetector/MyChangeNotifiers.dart';
 import 'package:gesturedetector/MyFutureBuilder.dart';
@@ -29,6 +31,8 @@ import 'package:gesturedetector/QRapp/main.dart';
 import 'package:gesturedetector/ReadingJsonFIle.dart';
 import 'package:gesturedetector/ScreenUtil/main.dart';
 import 'package:gesturedetector/TodoApp.dart';
+import 'package:gesturedetector/Ui/Day1/main.dart';
+import 'package:gesturedetector/Ui/Day3/Food%20delivery%20/main.dart';
 import 'package:gesturedetector/dynamicKeyboard.dart';
 import 'package:gesturedetector/insta/signin.dart';
 
@@ -40,10 +44,10 @@ import 'MyTextFormField.dart';
 import 'insta/try.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await initializeNotificationChannel();
-  runApp(const PdfGenerator());
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // await initializeNotificationChannel();
+  runApp(const HiveApp());
 }
 
 initializeNotificationChannel()async{
