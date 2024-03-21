@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gesturedetector/Animations/animationCard.dart';
-import 'package:gesturedetector/Animations/Effects/fadeEffect.dart';
 import 'package:gesturedetector/Animations/Effects/slideRightEffect.dart';
 import 'package:gesturedetector/Animations/styledText.dart';
 import 'package:gesturedetector/PDF_GENERATOR_APP/main.dart';
@@ -86,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisCount: 2),
               children: [
                 ///      Fade effect
-               makeFadeAnimation(text: text),
+               // makeFadeAnimation(text: text),
 
                 ///      Slide Effect
                makeSlideEffect(text: text)
